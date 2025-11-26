@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Toko BOY</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            font-size: 3em;
+        }
+
+        .logo-text h1 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .logo-text p {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .login-header h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-control {
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
+        }
+
+        .login-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .login-options .btn {
+            flex: 1;
+        }
+
+        .notification {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .notification.error {
+            background: #ffeaa7;
+            color: #e17055;
+            border: 1px solid #fdcb6e;
+            display: block;
+        }
+
+        .notification.success {
+            background: #d5f4e6;
+            color: #27ae60;
+            border: 1px solid #27ae60;
+            display: block;
+        }
+
+        .demo-accounts {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+
+        .demo-accounts h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .demo-account {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .demo-account:last-child {
+            margin-bottom: 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+            }
+            
+            .login-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo">
+                <div class="logo-icon">🛒</div>
+                <div class="logo-text">
+                    <h1>Toko BOY</h1>
+                    <p>Sistem Point of Sale</p>
+                </div>
+            </div>
+            <h2>Masuk ke Sistem</h2>
+            <p>Silakan login untuk melanjutkan</p>
+        </div>
+
+        <div id="notification" class="notification"></div>
+
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="username">👤 Username</label>
+                <input type="text" id="username" class="form-control" placeholder="Masukkan username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">🔒 Password</label>
+                <input type="password" id="password" class="form-control" placeholder="Masukkan password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                🚀 Login
+            </button>
+        </form>
+
+        <div class="login-options">
+            <button type="button" class="btn btn-success" onclick="loginAsKasir()">
+                💼 Login sebagai Kasir
+            </button>
+            <button type="button" class="btn btn-primary" onclick="loginAsAdmin()">
+                ⚙️ Login sebagai Admin
+            </button>
+        </div>
+
+        <div class="demo-accounts">
+            <h4>🔐 Akun Demo:</h4>
+            <div class="demo-account"><strong>Kasir:</strong> kasir / kasir123</div>
+            <div class="demo-account"><strong>Admin:</strong> admin / admin123</div>
+        </div>
+
+        <div class="footer">
+            &copy; 2024 Toko BOY - Sistem POS Modern
+        </div>
+    </div>
+
+    <script>
+        class LoginSystem {
+            constructor() {
+                this.users = {
+                    'admin': { password: 'admin123', role: 'admin', redirect: 'admin.html' },
+                    'kasir': { password: 'kasir123', role: 'kasir', redirect: 'kasir.html' }
+                };
+                this.init();
+            }
+
+            init() {
+                // Cek redirect parameter
+                const urlParams = new URLSearchParams(window.location.search);
+                const redirect = urlParams.get('redirect');
+                
+                if (redirect) {
+                    document.getElementById('notification').textContent = 
+                        `Silakan login untuk mengakses halaman ${redirect}`;
+                    document.getElementById('notification').className = 'notification';
+                    document.getElementById('notification').style.display = 'block';
+                }
+
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                document.getElementById('loginForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleLogin();
+                });
+
+                // Enter key support
+                document.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.handleLogin();
+                    }
+                });
+            }
+
+            handleLogin() {
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+
+                if (!username || !password) {
+                    this.showNotification('Username dan password harus diisi!', 'error');
+                    return;
+                }
+
+                const user = this.users[username];
+                
+                if (user && user.password === password) {
+                    const userData = {
+                        username: username,
+                        role: user.role,
+                        loginTime: new Date().toISOString()
+                    };
+                    
+                    // Simpan session
+                    localStorage.setItem('currentUser', JSON.stringify(userData));
+                    localStorage.setItem('isLoggedIn', 'true');
+                    
+                    this.showNotification('Login berhasil! Mengalihkan...', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = user.redirect;
+                    }, 1000);
+                    
+                } else {
+                    this.showNotification('Username atau password salah!', 'error');
+                }
+            }
+
+            showNotification(message, type) {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.className = `notification ${type}`;
+                
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 4000);
+            }
+
+            quickLogin(username) {
+                document.getElementById('username').value = username;
+                document.getElementById('password').value = this.users[username].password;
+                this.handleLogin();
+            }
+        }
+
+        // Global functions untuk tombol cepat
+        function loginAsKasir() {
+            loginSystem.quickLogin('kasir');
+        }
+
+        function loginAsAdmin() {
+            loginSystem.quickLogin('admin');
+        }
+
+        // Initialize login system
+        const loginSystem = new LoginSystem();
+    </script>
+</body>
+</html>

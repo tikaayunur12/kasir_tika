@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>toko sigma</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-text h1 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .logo-text p {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-link {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .nav-link.admin {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+
+        .nav-link.admin:hover {
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h2 {
+            font-size: 3.5em;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .feature-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .feature-card p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .feature-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .feature-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .quick-actions h3 {
+            color: white;
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #2c3e50;
+        }
+
+        .action-btn:hover {
+            background: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 60px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(44, 62, 80, 0.9);
+            color: white;
+            padding: 40px 0;
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            text-align: left;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 20px;
+            color: #3498db;
+        }
+
+        .footer-section p {
+            line-height: 1.6;
+            color: #bdc3c7;
+        }
+
+        .footer-bottom {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #95a5a6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .nav-link {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero h2 {
+                font-size: 2.5em;
+            }
+
+            .hero p {
+                font-size: 1.1em;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.success {
+            background: #27ae60;
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: #e74c3c;
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <div class="logo-icon">🛒</div>
+                    <div class="logo-text">
+                        <h1>Toko BOY</h1>
+                        <p>Sistem Point of Sale Modern</p>
+                    </div>
+                </div>
+                <!-- Di dalam index.html, ubah bagian nav-links -->
+                <div class="nav-links">
+                    <a href="#features" class="nav-link">🏠 Beranda</a>
+                    <a href="login.html?redirect=kasir" class="nav-link">💼 Kasir</a>
+                    <a href="login.html?redirect=admin" class="nav-link admin">⚙️ Admin</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content animate-fade-in">
+                <h2>Beranda </h2>
+                <p>Selamat datang di toko kami selamat menghabiskan uang </p>
+                
+                <div class="action-buttons">
+                    <a href="kasir.html" class="action-btn">
+                        🏪 Beli sekarang
+                    </a>
+                    <a href="admin.html" class="action-btn">
+                        ⚙️ Khusus Admin
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Features Grid -->
+        <section id="features" class="features">
+            <div class="feature-card animate-fade-in">
+                <div class="feature-icon">💼</div>
+                <h3>Toko BOY</h3>
+                <p>klik untuk berbelanja di toko kami.</p>
+                <a href="kasir.html" class="feature-btn">Buka Toko</a>
+            </div>
+
+        </section>
+        <!-- Quick Actions -->
+        
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Tentang kamiii</h4>
+                    <p>Toko yang dikembangkan untuk membantu UMKM dalam mengelola transaksi penjualan, stok produk, dan laporan keuangan dengan mudah dan efisien.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Toko BOY toko anti mambu merkualitas.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Quick Guide Modal -->
+    <div id="guideModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2>📚 Panduan Cepat Sistem POS</h2>
+                <span class="close" onclick="closeGuideModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div style="line-height: 1.6;">
+                    <h3>🚀 Cara Menggunakan:</h3>
+                    <div style="margin: 20px 0;">
+                        <strong>1. Untuk Kasir:</strong><br>
+                        • Buka halaman <a href="kasir.html" style="color: #3498db;">Kasir</a><br>
+                        • Pilih produk dari daftar<br>
+                        • Atur jumlah di keranjang<br>
+                        • Klik "Bayar Sekarang"<br>
+                        • Pilih metode pembayaran<br>
+                        • Cetak struk (opsional)
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <strong>2. Untuk Admin:</strong><br>
+                        • Buka halaman <a href="admin.html" style="color: #3498db;">Admin</a><br>
+                        • Kelola produk dan stok<br>
+                        • Lihat riwayat transaksi<br>
+                        • Generate laporan<br>
+                        • Kelola data pelanggan
+                    </div>
+
+                    <div style="margin: 20px 0;">
+                        <strong>🎯 Shortcut Keyboard:</strong><br>
+                        • <kbd>F1</kbd> - Kosongkan keranjang (Kasir)<br>
+                        • <kbd>F2</kbd> - Buka pembayaran (Kasir)<br>
+                        • <kbd>ESC</kbd> - Tutup modal<br>
+                        • <kbd>Ctrl + N</kbd> - Produk baru (Admin)
+                    </div>
+                </div>
+                <div class="modal-actions" style="margin-top: 25px;">
+                    <button class="btn btn-primary" onclick="closeGuideModal()" style="flex: 1;">
+                        Mengerti
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Info Modal -->
+    <div id="infoModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>ℹ️ Informasi Sistem</h2>
+                <span class="close" onclick="closeInfoModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="systemInfo" style="line-height: 1.6;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="font-size: 3em;">🛒</div>
+                        <h3>POS System v1.0</h3>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                        <strong>Status Sistem:</strong> 
+                        <span id="systemStatus" style="color: #27ae60;">● Online</span>
+                    </div>
+
+                    <div style="margin-bottom: 10px;">
+                        <strong>Database:</strong> 
+                        <span id="dbStatus">Mengecek...</span>
+                    </div>
+
+                    <div style="margin-bottom: 10px;">
+                        <strong>Total Produk:</strong> 
+                        <span id="infoTotalProducts">0</span>
+                    </div>
+
+                    <div style="margin-bottom: 10px;">
+                        <strong>Transaksi Hari Ini:</strong> 
+                        <span id="infoTodaySales">0</span>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <strong>Versi:</strong> 1.0.0
+                    </div>
+
+                    <div style="background: #e8f4fd; padding: 10px; border-radius: 5px; font-size: 0.9em;">
+                        📍 <strong>Lokasi File:</strong><br>
+                        • index.html - Halaman utama<br>
+                        • kasir.html - Interface kasir<br>
+                        • admin.html - Panel admin<br>
+                        • api_produk.php - API produk<br>
+                        • api_penjualan.php - API penjualan
+                    </div>
+                </div>
+                <div class="modal-actions" style="margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="closeInfoModal()" style="flex: 1;">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // System Controller
+        class POSSystem {
+            constructor() {
+                this.stats = {
+                    totalProducts: 0,
+                    totalSales: 0,
+                    revenueToday: 0,
+                    lowStock: 0
+                };
+                this.init();
+            }
+
+            async init() {
+                await this.loadStats();
+                this.setupEventListeners();
+                this.animateElements();
+            }
+
+            async loadStats() {
+                try {
+                    // Load products count
+                    const productsResponse = await fetch('api_produk.php');
+                    if (productsResponse.ok) {
+                        const products = await productsResponse.json();
+                        this.stats.totalProducts = products.length;
+                        this.stats.lowStock = products.filter(p => p.Stok < 5 && p.Stok > 0).length;
+                    }
+
+                    // Load today's sales
+                    const salesResponse = await fetch('api_penjualan.php');
+                    if (salesResponse.ok) {
+                        const sales = await salesResponse.json();
+                        const today = new Date().toDateString();
+                        const todaySales = sales.filter(sale => 
+                            new Date(sale.TanggalPenjualan).toDateString() === today
+                        );
+                        this.stats.totalSales = todaySales.length;
+                        this.stats.revenueToday = todaySales.reduce((sum, sale) => sum + parseFloat(sale.TotalHarga), 0);
+                    }
+
+                    this.updateDisplay();
+                } catch (error) {
+                    console.error('Error loading stats:', error);
+                }
+            }
+
+            updateDisplay() {
+                document.getElementById('totalProducts').textContent = this.stats.totalProducts;
+                document.getElementById('totalSales').textContent = this.stats.totalSales;
+                document.getElementById('revenueToday').textContent = this.formatPrice(this.stats.revenueToday);
+                document.getElementById('lowStock').textContent = this.stats.lowStock;
+
+                // Update info modal
+                document.getElementById('infoTotalProducts').textContent = this.stats.totalProducts;
+                document.getElementById('infoTodaySales').textContent = this.stats.totalSales;
+            }
+
+            formatPrice(price) {
+                return new Intl.NumberFormat('id-ID').format(price);
+            }
+
+            animateElements() {
+                // Add animation delay to elements
+                const elements = document.querySelectorAll('.animate-fade-in');
+                elements.forEach((el, index) => {
+                    el.style.animationDelay = `${index * 0.1}s`;
+                });
+            }
+
+            showNotification(message, type = 'success') {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.className = `notification ${type}`;
+                
+                setTimeout(() => {
+                    notification.className = 'notification';
+                }, 3000);
+            }
+
+            setupEventListeners() {
+                // Smooth scroll for anchor links
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    });
+                });
+
+                // Keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        closeGuideModal();
+                        closeInfoModal();
+                    }
+                    if (e.ctrlKey && e.key === 'k') {
+                        e.preventDefault();
+                        openKasir();
+                    }
+                    if (e.ctrlKey && e.key === 'a') {
+                        e.preventDefault();
+                        openAdmin();
+                    }
+                });
+            }
+        }
+
+        // Global functions
+        function openKasir() {
+            window.open('kasir.html', '_blank');
+        }
+
+        function openAdmin() {
+            window.open('admin.html', '_blank');
+        }
+
+        function showQuickGuide() {
+            document.getElementById('guideModal').style.display = 'block';
+        }
+
+        function closeGuideModal() {
+            document.getElementById('guideModal').style.display = 'none';
+        }
+
+        function showSystemInfo() {
+            document.getElementById('infoModal').style.display = 'block';
+            checkSystemStatus();
+        }
+
+        function closeInfoModal() {
+            document.getElementById('infoModal').style.display = 'none';
+        }
+
+        async function checkDatabase() {
+            try {
+                const response = await fetch('api_produk.php');
+                const dbStatus = document.getElementById('dbStatus');
+                
+                if (response.ok) {
+                    dbStatus.innerHTML = '<span style="color: #27ae60;">● Terhubung</span>';
+                    posSystem.showNotification('Database terhubung dengan baik!', 'success');
+                } else {
+                    throw new Error('Database error');
+                }
+            } catch (error) {
+                document.getElementById('dbStatus').innerHTML = '<span style="color: #e74c3c;">● Gagal Terhubung</span>';
+                posSystem.showNotification('Gagal terhubung ke database!', 'error');
+            }
+        }
+
+        async function checkSystemStatus() {
+            await checkDatabase();
+        }
+
+        // Modal close when clicking outside
+        document.addEventListener('click', function(e) {
+            const guideModal = document.getElementById('guideModal');
+            const infoModal = document.getElementById('infoModal');
+            
+            if (e.target === guideModal) {
+                closeGuideModal();
+            }
+            if (e.target === infoModal) {
+                closeInfoModal();
+            }
+        });
+
+        // Initialize system
+        const posSystem = new POSSystem();
+
+        // Add some CSS for modal (reuse from previous files)
+        const modalStyles = `
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                backdrop-filter: blur(5px);
+            }
+            .modal-content {
+                background: white;
+                margin: 5% auto;
+                border-radius: 20px;
+                width: 90%;
+                max-width: 600px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                animation: modalSlideIn 0.3s ease;
+            }
+            @keyframes modalSlideIn {
+                from { opacity: 0; transform: translateY(-50px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .modal-header {
+                background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+                color: white;
+                padding: 20px;
+                border-radius: 20px 20px 0 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .modal-header h2 {
+                margin: 0;
+                font-size: 1.6em;
+            }
+            .close {
+                color: white;
+                font-size: 28px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            .modal-body {
+                padding: 25px;
+            }
+            .btn {
+                padding: 12px 24px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: all 0.3s ease;
+            }
+            .btn-primary {
+                background: #3498db;
+                color: white;
+            }
+            .modal-actions {
+                display: flex;
+                gap: 15px;
+            }
+            kbd {
+                background: #f8f9fa;
+                border: 1px solid #dee2e6;
+                border-radius: 4px;
+                padding: 2px 6px;
+                font-size: 0.9em;
+                font-family: monospace;
+            }
+        `;
+
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = modalStyles;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+</html>

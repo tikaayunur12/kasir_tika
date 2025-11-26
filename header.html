@@ -1,0 +1,271 @@
+<!-- File: header.html -->
+<header class="header">
+    <div class="container">
+        <nav class="nav">
+            <div class="logo">
+                <div class="logo-icon">🛒</div>
+                <div class="logo-text">
+                    <h1>Toko BOY</h1>
+                    <p>Sistem Point of Sale</p>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">🏠 Beranda</a>
+                <a href="kasir.html" class="nav-link" id="kasirLink">💼 Kasir</a>
+                <a href="admin.html" class="nav-link admin" id="adminLink">⚙️ Admin</a>
+                <div class="user-info" id="userInfo" style="display: none;">
+                    <span class="user-welcome" id="userWelcome"></span>
+                    <button onclick="logout()" class="nav-link logout">🚪 Logout</button>
+                </div>
+                <div class="login-info" id="loginInfo">
+                    <a href="login.html" class="nav-link login">🔐 Login</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<style>
+.header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    font-size: 2em;
+}
+
+.logo-text h1 {
+    color: #2c3e50;
+    font-size: 1.4em;
+    margin: 0;
+}
+
+.logo-text p {
+    color: #7f8c8d;
+    font-size: 0.8em;
+    margin: 0;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.nav-link {
+    padding: 8px 16px;
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.nav-link:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+.nav-link.admin {
+    background: #e74c3c;
+}
+
+.nav-link.admin:hover {
+    background: #c0392b;
+}
+
+.nav-link.login {
+    background: #27ae60;
+}
+
+.nav-link.login:hover {
+    background: #229954;
+}
+
+.nav-link.logout {
+    background: #e67e22;
+    font-size: 0.8em;
+    padding: 6px 12px;
+}
+
+.nav-link.logout:hover {
+    background: #d35400;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-welcome {
+    color: #2c3e50;
+    font-size: 0.9em;
+    font-weight: 500;
+    background: #f8f9fa;
+    padding: 6px 12px;
+    border-radius: 15px;
+    border: 1px solid #e9ecef;
+}
+
+.login-info {
+    display: flex;
+    align-items: center;
+}
+
+/* Tambahan untuk proteksi akses */
+.nav-link.disabled {
+    background: #95a5a6 !important;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.nav-link.disabled:hover {
+    transform: none;
+    background: #95a5a6 !important;
+}
+
+@media (max-width: 768px) {
+    .nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .nav-links {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .user-info {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .user-welcome {
+        font-size: 0.8em;
+    }
+}
+</style>
+
+<script>
+// Fungsi untuk mengecek status login
+function checkAuth() {
+    const currentUser = localStorage.getItem('currentUser');
+    const userInfo = document.getElementById('userInfo');
+    const loginInfo = document.getElementById('loginInfo');
+    const userWelcome = document.getElementById('userWelcome');
+    const kasirLink = document.getElementById('kasirLink');
+    const adminLink = document.getElementById('adminLink');
+    
+    if (currentUser) {
+        const userData = JSON.parse(currentUser);
+        
+        // Tampilkan info user dan sembunyikan login
+        userInfo.style.display = 'flex';
+        loginInfo.style.display = 'none';
+        userWelcome.textContent = `👋 ${userData.username} (${userData.role})`;
+        
+        // Proteksi akses berdasarkan role
+        if (userData.role === 'kasir') {
+            // Kasir hanya bisa akses kasir
+            if (adminLink) {
+                adminLink.classList.add('disabled');
+                adminLink.href = 'javascript:void(0)';
+                adminLink.onclick = function() {
+                    alert('Hanya admin yang dapat mengakses halaman ini!');
+                };
+            }
+        }
+        
+    } else {
+        // User belum login
+        userInfo.style.display = 'none';
+        loginInfo.style.display = 'flex';
+        
+        // Tambahkan proteksi untuk halaman yang membutuhkan login
+        if (kasirLink) {
+            kasirLink.addEventListener('click', function(e) {
+                if (!localStorage.getItem('currentUser')) {
+                    e.preventDefault();
+                    if (confirm('Anda perlu login untuk mengakses halaman Kasir. Login sekarang?')) {
+                        window.location.href = 'login.html?redirect=kasir';
+                    }
+                }
+            });
+        }
+        
+        if (adminLink) {
+            adminLink.addEventListener('click', function(e) {
+                if (!localStorage.getItem('currentUser')) {
+                    e.preventDefault();
+                    if (confirm('Anda perlu login untuk mengakses halaman Admin. Login sekarang?')) {
+                        window.location.href = 'login.html?redirect=admin';
+                    }
+                }
+            });
+        }
+    }
+}
+
+// Fungsi logout
+function logout() {
+    if (confirm('Apakah Anda yakin ingin logout?')) {
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('isLoggedIn');
+        window.location.href = 'index.html';
+    }
+}
+
+// Cek auth saat halaman dimuat
+document.addEventListener('DOMContentLoaded', function() {
+    checkAuth();
+    
+    // Juga cek setiap kali storage berubah (jika multiple tabs)
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'currentUser') {
+            checkAuth();
+        }
+    });
+});
+
+// Fungsi untuk mendapatkan user saat ini
+function getCurrentUser() {
+    const currentUser = localStorage.getItem('currentUser');
+    return currentUser ? JSON.parse(currentUser) : null;
+}
+
+// Fungsi untuk cek role
+function hasRole(requiredRole) {
+    const user = getCurrentUser();
+    return user && user.role === requiredRole;
+}
+</script>
